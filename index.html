@@ -868,19 +868,20 @@
                 return null;
             }
         }
+// ============================================
+// INITIALIZATION
+// ============================================
 
-        // ============================================
-        // INITIALIZATION
-        // ============================================
-
-        document.addEventListener('DOMContentLoaded', async function() {
-            const loaded = await loadProductsFromSupabase();
-            if (!loaded) {
-                products = [...localProducts];
-                console.log('📦 Using local data (Supabase not configured)');
-            }
-            renderProducts();
-            updateCartCount();
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('🔄 جاري جلب المنتجات من Supabase...');
+    
+    // استدعاء دالة جلب البيانات الحقيقية من جدولك
+    await loadProductsFromSupabase();
+    
+    // رسم المنتجات وتحديث السلة
+    renderProducts();
+    updateCartCount();
+});
 
             if (!isSupabaseReady) {
                 showSupabaseSetupNotice();
