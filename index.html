@@ -636,6 +636,9 @@
             cooking: 'أجهزة الطبخ',
             tools: 'أدوات العمل'
         };
+        // تعريف المتغيرات الناقصة لإصلاح خطأ الـ ReferenceError الخاص بالسلة
+        let cart = [];
+        let orders = [];
         let supabaseClient = null;
         let isSupabaseReady = false;
 
