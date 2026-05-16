@@ -776,7 +776,7 @@
                         icon: p.icon || 'fas fa-box',
                         specs: p.specs || [],
                         description: p.description || '',
-                        imageUrl: p.image_url || null
+                        image_Url: p.imageUrl || null
                     }));
                     console.log('✅ Products loaded from Supabase:', products.length);
                     return true;
@@ -801,7 +801,7 @@
                         icon: product.icon,
                         specs: product.specs,
                         description: product.description,
-                        image_url: product.imageUrl || null,
+                        image_url: product.image_Url || null,
                         created_at: new Date().toISOString()
                     }]);
 
