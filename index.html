@@ -622,7 +622,20 @@
     <script>
         const SUPABASE_URL = 'https://ruvdteruqgllfkaslpzu.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_x0ktvkgbb2m5CGFur-57HA_s_reMy0u';
-
+// كائن تعريب الفئات لإصلاح خطأ الـ ReferenceError
+        const categoryNames = {
+            phones: 'هواتف',
+            laptops: 'لابتوبات',
+            tablets: 'تابلت',
+            headphones: 'سماعات',
+            watches: 'ساعات ذكية',
+            consoles: 'أجهزة ألعاب',
+            accessories: 'ملحقات',
+            cooling: 'تبريد وتكييف',
+            home_electric: 'أجهزة منزلية',
+            cooking: 'أجهزة الطبخ',
+            tools: 'أدوات العمل'
+        };
         let supabaseClient = null;
         let isSupabaseReady = false;
 
@@ -1206,7 +1219,7 @@
                 }
 
                 // تجهيز كائن البيانات النظيف بدون فرض حقل الـ ID يدوياً لمنع رفض السيرفر
-                const newProduct = {
+              const newProduct = {
                     name: document.getElementById('newProductName').value,
                     category: document.getElementById('newProductCategory').value,
                     price: parseInt(document.getElementById('newProductPrice').value),
