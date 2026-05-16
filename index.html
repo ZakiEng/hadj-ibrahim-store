@@ -775,23 +775,30 @@
             return false;
         }
 
-        async function saveProductToSupabase(product) {
+       async function saveProductToSupabase(product) {
             if (!isSupabaseReady) return false;
             try {
+                // بناء مصفوفة البيانات الأساسية
+                const productData = {
+                    name: product.name,
+                    category: product.category,
+                    price: product.price,
+                    status: product.status,
+                    icon: product.icon,
+                    specs: product.specs,
+                    description: product.description,
+                    image_url: product.image_url || null,
+                    created_at: new Date().toISOString()
+                };
+
+                // ⚠️ الإصلاح الحاسم: إذا كان هناك id (حالة تعديل) نرسله، وإذا لم يكن هناك (حالة إضافة) نتركه فارغاً ليقبله السيرفر تلقائياً
+                if (product.id) {
+                    productData.id = product.id;
+                }
+
                 const { data, error } = await supabaseClient
                     .from('products')
-                    .upsert([{
-                        id: product.id,
-                        name: product.name,
-                        category: product.category,
-                        price: product.price,
-                        status: product.status,
-                        icon: product.icon,
-                        specs: product.specs,
-                        description: product.description,
-                        image_url: product.image_url || null,
-                        created_at: new Date().toISOString()
-                    }]);
+                    .upsert([productData]);
 
                 if (error) throw error;
                 console.log('✅ Product saved to Supabase');
@@ -801,7 +808,6 @@
                 return false;
             }
         }
-
         async function deleteProductFromSupabase(id) {
             if (!isSupabaseReady) return false;
             try {
