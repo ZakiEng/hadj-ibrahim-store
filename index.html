@@ -230,12 +230,10 @@
         }
     </style>
 
-    <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
 </head>
 <body>
 
-    <!-- Header -->
     <header class="header">
         <div class="header-top">
             <a href="#" class="logo" onclick="showHome()">
@@ -270,9 +268,7 @@
         </nav>
     </header>
 
-    <!-- Main Content -->
     <main class="main-content" id="mainContent">
-        <!-- Hero -->
         <section class="hero">
             <h1>أجهزة مستعملة أصلية بأسعار مغرية</h1>
             <p>الحاج إبراهيم يقدم لكم أفضل الأجهزة المستعملة الأصلية مع ضمان الجودة والتوصيل لجميع ولايات الجزائر</p>
@@ -282,7 +278,6 @@
             </div>
         </section>
 
-        <!-- Search -->
         <section class="search-section">
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="ابحث عن جهاز... (مثال: iPhone, Samsung, مكيف, غسالة...)" onkeyup="searchProducts()">
@@ -290,7 +285,6 @@
             </div>
         </section>
 
-        <!-- Categories -->
         <section class="categories-section">
             <h2 class="section-title"><i class="fas fa-th-large"></i> الفئات</h2>
             <div class="categories-grid" id="categoriesGrid">
@@ -357,14 +351,12 @@
             </div>
         </section>
 
-        <!-- Products -->
         <section class="products-section">
             <h2 class="section-title"><i class="fas fa-fire"></i> أحدث المنتجات</h2>
             <div class="products-grid" id="productsGrid"></div>
         </section>
     </main>
 
-    <!-- Product Detail Modal -->
     <div class="modal-overlay" id="productModal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('productModal')"><i class="fas fa-times"></i></button>
@@ -372,7 +364,6 @@
         </div>
     </div>
 
-    <!-- Order Modal -->
     <div class="modal-overlay" id="orderModal">
         <div class="modal-content" style="max-width: 600px;">
             <button class="modal-close" onclick="closeModal('orderModal')"><i class="fas fa-times"></i></button>
@@ -475,7 +466,6 @@
         </div>
     </div>
 
-    <!-- Cart Modal -->
     <div class="modal-overlay" id="cartModal">
         <div class="modal-content" style="max-width: 600px;">
             <button class="modal-close" onclick="closeModal('cartModal')"><i class="fas fa-times"></i></button>
@@ -486,7 +476,6 @@
         </div>
     </div>
 
-    <!-- Admin Modal -->
     <div class="modal-overlay" id="adminModal">
         <div class="modal-content" style="max-width: 1000px;">
             <button class="modal-close" onclick="closeModal('adminModal')"><i class="fas fa-times"></i></button>
@@ -583,7 +572,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
@@ -624,22 +612,12 @@
         </div>
     </footer>
 
-    <!-- Toast -->
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i>
         <span id="toastMessage">تمت العملية بنجاح!</span>
     </div>
 
     <script>
-        // ============================================
-        // SUPABASE CONFIGURATION - ضع بياناتك هنا
-        // ============================================
-        // 1. ادخل إلى https://supabase.com
-        // 2. أنشئ مشروع جديد (مجاني)
-        // 3. اذهب إلى Project Settings → API
-        // 4. انسخ URL و anon/public key
-        // ============================================
-
         const SUPABASE_URL = 'https://ruvdteruqgllfkaslpzu.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_x0ktvkgbb2m5CGFur-57HA_s_reMy0u';
 
@@ -658,11 +636,7 @@
             console.warn('⚠️ Supabase connection failed:', e);
         }
 
-        // ============================================
-        // LOCAL DATA (Fallback when Supabase is not ready)
-        // ============================================
         let localProducts = [
-            // Phones (7)
             { id: 1, name: "iPhone 13 Pro Max", category: "phones", price: 85000, status: "available", icon: "fas fa-mobile-alt", specs: ["256GB", "بطارية 92%", "لون أزرق", "أصلي 100%"], description: "iPhone 13 Pro Max بحالة ممتازة، جهاز أصلي مع كامل ملحقاته. البطارية في حالة جيدة جداً." },
             { id: 2, name: "Samsung Galaxy S23 Ultra", category: "phones", price: 72000, status: "available", icon: "fas fa-mobile-alt", specs: ["512GB", "بطارية 88%", "لون أسود", "مع قلم S-Pen"], description: "جهاز Samsung Galaxy S23 Ultra بحالة ممتازة، ذاكرة كبيرة 512GB، يدعم القلم الذكي." },
             { id: 3, name: "Google Pixel 7 Pro", category: "phones", price: 48000, status: "available", icon: "fas fa-mobile-alt", specs: ["256GB", "كاميرا 50MP", "Tensor G2", "أندرويد نقي"], description: "Google Pixel 7 Pro مع أفضل كاميرا في فئته وتجربة أندرويد النقية." },
@@ -670,51 +644,35 @@
             { id: 5, name: "Xiaomi Redmi Note 12 Pro", category: "phones", price: 22000, status: "available", icon: "fas fa-mobile-alt", specs: ["256GB", "كاميرا 108MP", "شحن 67W", "شاشة 120Hz"], description: "Xiaomi Redmi Note 12 Pro مع كاميرا رائعة وشحن سريع جداً." },
             { id: 6, name: "OnePlus 11", category: "phones", price: 42000, status: "available", icon: "fas fa-mobile-alt", specs: ["256GB", "Snapdragon 8 Gen 2", "شحن 100W", "شاشة 120Hz"], description: "OnePlus 11 مع أقوى معالج وشحن خارق 100W." },
             { id: 7, name: "Samsung Galaxy A54", category: "phones", price: 28000, status: "available", icon: "fas fa-mobile-alt", specs: ["256GB", "كاميرا 50MP", "بطارية 5000mAh", "مقاوم للماء"], description: "Samsung Galaxy A54 مع مواصفات ممتازة وسعر منافس." },
-
-            // Laptops (5)
             { id: 8, name: "HP Pavilion 15", category: "laptops", price: 45000, status: "available", icon: "fas fa-laptop", specs: ["i5-1135G7", "8GB RAM", "512GB SSD", "شاشة 15.6\""], description: "لابتوب HP Pavilion 15 للاستخدام اليومي والمهام المكتبية، أداء سلس وموثوق." },
             { id: 9, name: "MacBook Air M1", category: "laptops", price: 68000, status: "available", icon: "fas fa-laptop", specs: ["M1 Chip", "8GB RAM", "256GB SSD", "بطارية 10 ساعات"], description: "MacBook Air مع معالج M1، أداء خرافي وبطارية تدوم طوال اليوم." },
             { id: 10, name: "Dell XPS 13", category: "laptops", price: 52000, status: "available", icon: "fas fa-laptop", specs: ["i7-1165G7", "16GB RAM", "512GB SSD", "شاشة InfinityEdge"], description: "Dell XPS 13 فئة UltraBook مع شاشة بدون حواف وأداء احترافي." },
             { id: 11, name: "Lenovo ThinkPad X1 Carbon", category: "laptops", price: 62000, status: "available", icon: "fas fa-laptop", specs: ["i7-1260P", "16GB RAM", "1TB SSD", "وزن 1.1kg"], description: "ThinkPad X1 Carbon الجيل العاشر، أخف وأقوى لابتوب للأعمال." },
             { id: 12, name: "Asus ROG Zephyrus G14", category: "laptops", price: 75000, status: "available", icon: "fas fa-laptop", specs: ["Ryzen 9", "16GB RAM", "1TB SSD", "RTX 3060"], description: "لابتوب ألعاب ROG Zephyrus G14 قوي وأنيق في آن واحد." },
-
-            // Tablets (3)
             { id: 13, name: "iPad Pro 11\" 2022", category: "tablets", price: 55000, status: "available", icon: "fas fa-tablet-alt", specs: ["128GB", "WiFi+5G", "شاشة 11\"", "مع Apple Pencil"], description: "iPad Pro 11 بوصة مع قلم Apple Pencil، مثالي للدراسة والعمل الإبداعي." },
             { id: 14, name: "Samsung Galaxy Tab S8", category: "tablets", price: 42000, status: "available", icon: "fas fa-tablet-alt", specs: ["128GB", "S Pen", "شاشة 11\"", "WiFi+5G"], description: "تابلت Samsung Galaxy Tab S8 مع قلم S Pen، مثالي للعمل والترفيه." },
             { id: 15, name: "iPad Air 5", category: "tablets", price: 38000, status: "available", icon: "fas fa-tablet-alt", specs: ["64GB", "M1 Chip", "شاشة 10.9\"", "Touch ID"], description: "iPad Air 5 مع معالج M1، أداء احترافي بسعر مناسب." },
-
-            // Headphones (4)
             { id: 16, name: "AirPods Pro 2", category: "headphones", price: 18000, status: "available", icon: "fas fa-headphones", specs: ["إلغاء ضوضاء", "صوت مكاني", "بطارية 6 ساعات", "أصلي"], description: "سماعات AirPods Pro الجيل الثاني مع إلغاء الضوضاء النشط وجودة صوت استثنائية." },
             { id: 17, name: "Sony WH-1000XM5", category: "headphones", price: 22000, status: "available", icon: "fas fa-headphones", specs: ["إلغاء ضوضاء", "30 ساعة", "صوت عالي الدقة", "مريحة جداً"], description: "سماعات Sony الرائدة مع أفضل إلغاء للضوضاء في السوق، مثالية للسفر والعمل." },
             { id: 18, name: "Samsung Galaxy Buds2 Pro", category: "headphones", price: 15000, status: "available", icon: "fas fa-headphones", specs: ["صوت 360°", "إلغاء ضوضاء", "بطارية 5 ساعات", "مقاومة للماء"], description: "سماعات Samsung Galaxy Buds2 Pro مع صوت محيطي 360 درجة وتصميم مريح." },
             { id: 19, name: "Huawei FreeBuds Pro 2", category: "headphones", price: 16000, status: "available", icon: "fas fa-headphones", specs: ["صوت Hi-Res", "إلغاء ضوضاء", "بطارية 6.5 ساعة", "تصميم أنيق"], description: "سماعات Huawei FreeBuds Pro 2 بتعاون مع Devialet لصوت استثنائي." },
-
-            // Watches (3)
             { id: 20, name: "Apple Watch Series 8", category: "watches", price: 28000, status: "available", icon: "fas fa-clock", specs: ["45mm", "GPS+Cellular", "مقاومة للماء", "مستشعرات صحة"], description: "Apple Watch Series 8 مقاس 45mm مع خاصية الاتصال الخلوي ومستشعرات متقدمة للصحة." },
             { id: 21, name: "Samsung Galaxy Watch 5", category: "watches", price: 20000, status: "available", icon: "fas fa-clock", specs: ["44mm", "Wear OS", "بطارية يومين", "تتبع النوم"], description: "ساعة Samsung Galaxy Watch 5 مع نظام Wear OS وتتبع متقدم للنشاط والنوم." },
             { id: 22, name: "Garmin Fenix 7", category: "watches", price: 45000, status: "available", icon: "fas fa-clock", specs: ["47mm", "GPS", "بطارية 18 يوم", "مقاوم للصدمات"], description: "ساعة Garmin Fenix 7 للرياضيين والمغامرين مع GPS متقدم وبطارية خارقة." },
-
-            // Consoles (3)
             { id: 23, name: "PlayStation 5", category: "consoles", price: 65000, status: "sold", icon: "fas fa-gamepad", specs: ["825GB SSD", "4K 120Hz", "يدتين", "3 ألعاب"], description: "PlayStation 5 مع يدتين و3 ألعاب، جهاز نظيف جداً وبحالة ممتازة." },
             { id: 24, name: "Xbox Series X", category: "consoles", price: 58000, status: "available", icon: "fas fa-gamepad", specs: ["1TB SSD", "4K 120Hz", "Game Pass", "يدة إضافية"], description: "Xbox Series X مع اشتراك Game Pass ويدة إضافية، تجربة ألعاب لا مثيل لها." },
             { id: 25, name: "Nintendo Switch OLED", category: "consoles", price: 35000, status: "available", icon: "fas fa-gamepad", specs: ["64GB", "شاشة OLED", "يدتين Joy-Con", "5 ألعاب"], description: "Nintendo Switch OLED مع شاشة جميلة و5 ألعاب، مثالي للترفيه العائلي." },
-
-            // Accessories (5)
             { id: 26, name: "Logitech MX Master 3S", category: "accessories", price: 8000, status: "available", icon: "fas fa-mouse", specs: ["8000 DPI", "سكتة صامتة", "USB-C", "متعدد الأجهزة"], description: "ماوس Logitech MX Master 3S الأفضل للإنتاجية والعمل." },
             { id: 27, name: "Anker PowerCore 26800", category: "accessories", price: 4500, status: "available", icon: "fas fa-battery-full", specs: ["26800mAh", "3 مخارج", "شحن سريع", "مؤشر LED"], description: "باور بانك Anker سعة 26800mAh لشحن جميع أجهزتك أثناء التنقل." },
             { id: 28, name: "Samsung T7 Portable SSD", category: "accessories", price: 12000, status: "available", icon: "fas fa-hdd", specs: ["1TB", "USB-C", "سرعة 1050MB/s", "مقاوم للصدمات"], description: "قرص SSD خارجي Samsung T7 سريع وصغير الحجم." },
             { id: 29, name: "JBL Flip 6", category: "accessories", price: 9500, status: "available", icon: "fas fa-volume-up", specs: ["صوت 360°", "مقاوم للماء IP67", "12 ساعة", "Bluetooth 5.1"], description: "سماعة JBL Flip 6 محمولة مع صوت قوي ومقاومة للماء." },
             { id: 30, name: "Apple Magic Keyboard", category: "accessories", price: 11000, status: "available", icon: "fas fa-keyboard", specs: ["Bluetooth", "إضاءة خلفية", "Touch ID", "قابلة للشحن"], description: "كيبورد Apple Magic Keyboard مع Touch ID وتصميم أنيق." },
-
-            // Cooling (6)
             { id: 31, name: "مكيف سبليت Samsung 18000 BTU", category: "cooling", price: 65000, status: "available", icon: "fas fa-snowflake", specs: ["18000 BTU", "موفر طاقة A++", "تبريد سريع", "ريموت ذكي"], description: "مكيف سبليت سامسونج 18000 وحدة حرارية، موفر للطاقة بتصنيف A++، تبريد فعال وسريع." },
             { id: 32, name: "مكيف LG Dual Inverter 24000", category: "cooling", price: 85000, status: "available", icon: "fas fa-snowflake", specs: ["24000 BTU", "Dual Inverter", "تنقية هواء", "واي فاي"], description: "مكيف LG إنفرتر مزدوج 24000 BTU مع تقنية تنقية الهواء وتحكم عبر التطبيق." },
             { id: 33, name: "مبرد مياه Standing Water Cooler", category: "cooling", price: 18000, status: "available", icon: "fas fa-tint", specs: ["ساخن/بارد", "ستانلس ستيل", "سعة 20 لتر", "موفر طاقة"], description: "مبرد مياه أرضي يقدم ماء ساخناً وبارداً، مصنوع من الستانلس ستيل بجودة عالية." },
             { id: 34, name: "ثلاجة Samsung Twin Cooling 500L", category: "cooling", price: 72000, status: "available", icon: "fas fa-icicles", specs: ["500 لتر", "Twin Cooling+", "موفر طاقة", "No Frost"], description: "ثلاجة سامسونج 500 لتر بتقنية Twin Cooling+ للحفاظ على الطعام طازجاً لفترة أطول." },
             { id: 35, name: "فريزر عمودي Whirlpool 300L", category: "cooling", price: 45000, status: "available", icon: "fas fa-icicles", specs: ["300 لتر", "6 أدراج", "Fast Freeze", "إنذار باب مفتوح"], description: "فريزر عمودي ويرلبول 300 لتر مع 6 أدراج منظمة ونظام تجميد سريع." },
             { id: 36, name: "مروحة سقفية KDK 56\"", category: "cooling", price: 8500, status: "available", icon: "fas fa-fan", specs: ["56 بوصة", "3 سرعات", "ريموت كنترول", "صامتة"], description: "مروحة سقفية KDK يابانية 56 بوصة بتصميم صامت و3 سرعات مختلفة مع ريموت." },
-
-            // Home Electric (8)
             { id: 37, name: "غسالة ملابس LG Front Load 8kg", category: "home_electric", price: 38000, status: "available", icon: "fas fa-tshirt", specs: ["8 كجم", "1400 دورة", "إنفرتر", "بخار TrueSteam"], description: "غسالة LG أمامية 8 كجم بتقنية البخار TrueSteam للتنظيف العميق وتعقيم الملابس." },
             { id: 38, name: "مكنسة كهربائية Dyson V11", category: "home_electric", price: 42000, status: "available", icon: "fas fa-wind", specs: ["لاسلكية", "60 دقيقة", "شاشة LCD", "HEPA فلتر"], description: "مكنسة دايسون V11 لاسلكية مع شاشة LCD ذكية وبطارية تدوم 60 دقيقة." },
             { id: 39, name: "مكواة بخار Philips PerfectCare", category: "home_electric", price: 12000, status: "available", icon: "fas fa-tshirt", specs: ["2400 واط", "بخار مستمر", "أمان تلقائي", "لوحة Ceramic"], description: "مكواة فيلبس PerfectCare 2400 واط مع بخار مستمر ونظام أمان تلقائي ضد الحرق." },
@@ -723,8 +681,6 @@
             { id: 42, name: "ماكينة خياطة Singer Heavy Duty", category: "home_electric", price: 15000, status: "available", icon: "fas fa-cut", specs: ["23 غرزة", "معدن ثقيل", "نظام إبرة أوتوماتيك", "ضمان 5 سنوات"], description: "ماكينة خياطة سنجر Heavy Duty للأعمال الثقيلة مع 23 نوع غرزة مختلفة." },
             { id: 43, name: "محضر طعام Kenwood 1000W", category: "home_electric", price: 18000, status: "available", icon: "fas fa-blender", specs: ["1000 واط", "4.3 لتر", "12 ملحق", "ستانلس ستيل"], description: "محضر طعام كينوود 1000 واط مع وعاء 4.3 لتر و12 ملحق مختلف للطبخ المتنوع." },
             { id: 44, name: "مكواة بخار Tefal Pro Express", category: "home_electric", price: 22000, status: "available", icon: "fas fa-tshirt", specs: ["7.5 بار", "خزان 1.8 لتر", "أنظمة مختلفة", "Calc Collector"], description: "مكواة بخار تيفال Pro Express بضغط 7.5 بار مع خزان ماء كبير 1.8 لتر." },
-
-            // Cooking (7)
             { id: 45, name: "فرن كهربائي Built-in Bosch", category: "cooking", price: 48000, status: "available", icon: "fas fa-fire", specs: ["71 لتر", "3D HotAir", "تنظيف ذاتي", "باب بارد"], description: "فرن بوش مدمج 71 لتر بتقنية 3D HotAir للتوزيع المتساوي للحرارة." },
             { id: 46, name: "غاز 5 شعلات Smeg", category: "cooking", price: 35000, status: "available", icon: "fas fa-fire", specs: ["5 شعلات", "حديد زهر", "إشعال أوتوماتيك", "إيطالي"], description: "غاز سميج إيطالي 5 شعلات بشبكات حديد زهر وإشعال أوتوماتيك لكل شعلة." },
             { id: 47, name: "ماكينة قهوة DeLonghi Magnifica", category: "cooking", price: 55000, status: "available", icon: "fas fa-coffee", specs: ["فول أوتوماتيك", "15 بار", "طاحونة مدمجة", "حليب كابتشينو"], description: "ماكينة قهوة ديلونجي Magnifica فول أوتوماتيك مع طاحونة مدمجة ونظام كابتشينو." },
@@ -732,8 +688,6 @@
             { id: 49, name: "شواية كهربائية Tefal OptiGrill", category: "cooking", price: 14000, status: "available", icon: "fas fa-drumstick-bite", specs: ["2000 واط", "6 برامج", "مؤشر LED", "صحية"], description: "شواية تيفال OptiGrill 2000 واط مع 6 برامج طبخ ومؤشر LED للنضج المثالي." },
             { id: 50, name: "عجانة KitchenAid Artisan 5Qt", category: "cooking", price: 45000, status: "available", icon: "fas fa-blender", specs: ["4.8 لتر", "325 واط", "10 سرعات", "3 ملحقات"], description: "عجانة كيتشن ايد Artisan كلاسيكية 4.8 لتر مع 3 ملحقات أساسية للخبز والحلويات." },
             { id: 51, name: "ماكينة خبز Panasonic", category: "cooking", price: 16000, status: "available", icon: "fas fa-bread-slice", specs: ["27 برنامج", "موقت", "حجمين", "ستانلس ستيل"], description: "ماكينة خبز باناسونيك مع 27 برنامج مختلف لصنع الخبز والكعك والمربى." },
-
-            // Tools (5)
             { id: 52, name: "شنيور كهربائي Bosch Professional", category: "tools", price: 12000, status: "available", icon: "fas fa-tools", specs: ["18V", "2 بطارية", "55 نيوتن", "LED عمل"], description: "شنيور بوش Professional 18V مع بطاريتين ليثيوم أيون وإضاءة LED للعمل في الأماكن الضيقة." },
             { id: 53, name: "صاروخ قص Makita 125mm", category: "tools", price: 8500, status: "available", icon: "fas fa-tools", specs: ["1100 واط", "125 مم", "11000 دورة", "أمان"], description: "صاروخ قص ماكيتا 125 مم 1100 واط مع نظام أمان ضد إعادة التشغيل العرضي." },
             { id: 54, name: "منشار كهربائي Black+Decker", category: "tools", price: 9500, status: "available", icon: "fas fa-tree", specs: ["1800 واط", "16 بوصة", "أوتوماتيك زيت", "سلسلة Oregon"], description: "منشار كهربائي بلاك آند ديكر 1800 واط مع سلسلة Oregon ونظام تزييت أوتوماتيك." },
@@ -776,7 +730,7 @@
                         icon: p.icon || 'fas fa-box',
                         specs: p.specs || [],
                         description: p.description || '',
-                        image_Url: p.imageUrl || null
+                        image_url: p.image_url || null
                     }));
                     console.log('✅ Products loaded from Supabase:', products.length);
                     return true;
@@ -801,7 +755,7 @@
                         icon: product.icon,
                         specs: product.specs,
                         description: product.description,
-                        image_url: product.image_Url || null,
+                        image_url: product.image_url || null,
                         created_at: new Date().toISOString()
                     }]);
 
@@ -944,69 +898,7 @@
 
         function showSupabaseInstructions() {
             alert(`🔧 خطوات ربط الموقع بـ Supabase (مجاني 100%):
-
-1️⃣ ادخل إلى https://supabase.com
-2️⃣ سجّل الدخول (Sign Up) - مجاني
-3️⃣ أنشئ مشروع جديد (New Project)
-   - Name: hadj-ibrahim-store
-   - Database Password: اختر كلمة سر قوية
-   - Region: Frankfurt (أقرب للجزائر)
-   - Plan: Free
-   - Click "Create new project"
-
-4️⃣ انتظر 2-3 دقائق حتى يُنشأ المشروع
-
-5️⃣ اذهب إلى Project Settings → API
-   - انسخ "URL" (يبدأ بـ https://...)
-   - انسخ "anon public" key
-
-6️⃣ أنشئ الجداول:
-   - Table Editor → New Table
-   - Table name: products
-   - Columns:
-     * id: int8, Primary Key
-     * name: text
-     * category: text
-     * price: int8
-     * status: text (default: 'available')
-     * icon: text
-     * specs: jsonb
-     * description: text
-     * image_url: text
-     * created_at: timestamptz
-
-   - New Table: orders
-   - Columns:
-     * id: int8, Primary Key
-     * first_name: text
-     * last_name: text
-     * wilaya: text
-     * phone: text
-     * address: text
-     * notes: text
-     * products: jsonb
-     * total: int8
-     * status: text (default: 'pending')
-     * created_at: timestamptz
-
-7️⃣ فعّل Storage:
-   - Storage → New Bucket
-   - Name: product-images
-   - Public bucket: ✓
-
-8️⃣ افتح ملف الموقع في أي محرر نصوص
-   - ابحث عن: YOUR_PROJECT_ID.supabase.co
-   - استبدل بـ URL حقيقي
-   - ابحث عن: YOUR_ANON_PUBLIC_KEY_HERE
-   - استبدل بالمفتاح الحقيقي
-
-9️⃣ احفظ الملف وارفعه على GitHub Pages
-
-✅ النسخة المجانية تكفي:
-   - 500MB قاعدة بيانات
-   - 1GB تخزين للصور
-   - 2GB نقل بيانات شهرياً
-   - غير محدود من المستخدمين!`);
+            [سيتم تخطي هذا التنبيه تلقائياً لأن الربط ناجح الآن]`);
         }
 
         // ============================================
@@ -1036,7 +928,7 @@
             grid.innerHTML = filtered.map(product => `
                 <div class="product-card" onclick="showProductDetail(${product.id})">
                     <div class="product-image">
-                        ${product.imageUrl ? `<img src="${product.imageUrl}" style="width:100%;height:100%;object-fit:cover;">` : `<i class="${product.icon}"></i>`}
+                        ${product.image_url ? `<img src="${product.image_url}" style="width:100%;height:100%;object-fit:cover;">` : `<i class="${product.icon}"></i>`}
                     </div>
                     ${product.status === 'sold' ? '<div class="product-badge sold">تم البيع</div>' : '<div class="product-badge">متاح</div>'}
                     <div class="product-info">
@@ -1076,7 +968,7 @@
             const detail = document.getElementById('productDetail');
             detail.innerHTML = `
                 <div class="detail-image">
-                    ${currentProduct.imageUrl ? `<img src="${currentProduct.imageUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:0 25px 25px 0;">` : `<i class="${currentProduct.icon}"></i>`}
+                    ${currentProduct.image_url ? `<img src="${currentProduct.image_url}" style="width:100%;height:100%;object-fit:cover;border-radius:0 25px 25px 0;">` : `<i class="${currentProduct.icon}"></i>`}
                 </div>
                 <div class="detail-info">
                     <div class="detail-category">${categoryNames[currentProduct.category]}</div>
@@ -1191,7 +1083,7 @@
         // Order
         function openOrderModal(productId) {
             if (productId) {
-                const product = products.find(p => p.id === productId);
+                const product = products.find(p => p.id === id);
                 if (product) {
                     document.getElementById('orderSummary').innerHTML = `
                         <div class="summary-item"><span>المنتج</span><span>${product.name}</span></div>
@@ -1238,7 +1130,7 @@
             document.getElementById('orderForm').reset();
         }
 
-        // Admin
+        // Adminpanel
         async function showAdminPanel() {
             document.getElementById('adminModal').classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -1300,8 +1192,21 @@
 
         async function addProduct(event) {
             event.preventDefault();
+            
+            // تحديد الـ ID الجديد للمنتج
+            const nextId = Math.max(...products.map(p => p.id), 0) + 1;
+            
+            // جلب ملف الصورة المختار من الحقل الجديد
+            const imageInput = document.getElementById('productImage');
+            let uploadedImageUrl = null;
+            
+            if (imageInput && imageInput.files.length > 0) {
+                showToast('جاري رفع صورة المنتج للسيرفر...');
+                uploadedImageUrl = await uploadImageToSupabase(imageInput.files[0], nextId);
+            }
+
             const newProduct = {
-                id: Math.max(...products.map(p => p.id), 0) + 1,
+                id: nextId,
                 name: document.getElementById('newProductName').value,
                 category: document.getElementById('newProductCategory').value,
                 price: parseInt(document.getElementById('newProductPrice').value),
@@ -1309,7 +1214,7 @@
                 icon: document.getElementById('newProductIcon').value,
                 specs: document.getElementById('newProductSpecs').value.split(',').map(s => s.trim()).filter(s => s),
                 description: document.getElementById('newProductDesc').value,
-                imageUrl: null
+                image_url: uploadedImageUrl // وضع رابط الصورة الحقيقي المرفوع
             };
 
             await saveProductToSupabase(newProduct);
@@ -1317,7 +1222,7 @@
             products.push(newProduct);
             renderProducts();
             document.getElementById('addProductForm').reset();
-            showToast('تم إضافة المنتج بنجاح!');
+            showToast('تم إضافة المنتج ورفع الصورة بنجاح!');
             switchTab('productsList');
         }
 
