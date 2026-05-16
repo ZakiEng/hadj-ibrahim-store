@@ -75,6 +75,7 @@
         .product-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: all 0.4s; cursor: pointer; position: relative; }
         .product-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(26,35,126,0.15); }
         .product-image { width: 100%; height: 220px; object-fit: cover; background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 4rem; }
+        .product-image img { width: 100%; height: 100%; object-fit: cover; }
         .product-badge { position: absolute; top: 15px; right: 15px; background: var(--secondary); color: var(--primary); padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; z-index: 2; }
         .product-badge.sold { background: var(--danger); color: white; }
         .product-info { padding: 20px; }
@@ -666,7 +667,7 @@
             { id: 19, name: "Huawei FreeBuds Pro 2", category: "headphones", price: 16000, status: "available", icon: "fas fa-headphones", specs: ["صوت Hi-Res", "إلغاء ضوضاء", "بطارية 6.5 ساعة", "تصميم أنيق"], description: "سماعات Huawei FreeBuds Pro 2 بتعاون مع Devialet لصوت استثنائي." },
 
             // Watches (3)
-            { id: 20, name: "Apple Watch Series 8", category: "watches", price: 28000, status: "available", icon: "fas fa-clock", specs: ["45mm", "GPS+Cellular", "مقاومة للماء", "مستشعرات صحة"], description: "Apple Watch Series 8 مقاس 45mm مع خاصية الاتصال الخلوي ومستشعرات متقدمة للصحة." },
+            { id: 20, name: "Apple Watch Series 8", category: "watches", price: 28000, status: "available", icon: "fas fa-clock", specs: ["45mm", "GPS+Cellular", "مقاومة للماء", "مستشعرات صحة"], description: "Apple Watch Series 8 مقاس 45mm مع خاصية الاتصال الخلوي ومستشعرات متتقدمة للصحة." },
             { id: 21, name: "Samsung Galaxy Watch 5", category: "watches", price: 20000, status: "available", icon: "fas fa-clock", specs: ["44mm", "Wear OS", "بطارية يومين", "تتبع النوم"], description: "ساعة Samsung Galaxy Watch 5 مع نظام Wear OS وتتبع متقدم للنشاط والنوم." },
             { id: 22, name: "Garmin Fenix 7", category: "watches", price: 45000, status: "available", icon: "fas fa-clock", specs: ["47mm", "GPS", "بطارية 18 يوم", "مقاوم للصدمات"], description: "ساعة Garmin Fenix 7 للرياضيين والمغامرين مع GPS متقدم وبطارية خارقة." },
 
@@ -717,27 +718,16 @@
             { id: 56, name: "لحام كهربائي inverter 200A", category: "tools", price: 15000, status: "available", icon: "fas fa-bolt", specs: ["200 أمبير", "MMA/TIG", "إنفرتر", "خفيف الوزن"], description: "ماكينة لحام إنفرتر 200 أمبير تدعم MMA وTIG، خفيفة الوزن ومثالية للأعمال المنزلية." }
         ];
 
-        let products = [];
-        let orders = [];
-        let cart = [];
-        let currentProduct = null;
-
-        const categoryNames = {
-            phones: 'هواتف', laptops: 'لابتوبات', tablets: 'تابلت', headphones: 'سماعات',
-            watches: 'ساعات ذكية', consoles: 'أجهزة ألعاب', accessories: 'ملحقات',
-            cooling: 'تبريد وتكييف', home_electric: 'أجهزة منزلية', cooking: 'أجهزة الطبخ', tools: 'أدوات العمل'
-        };
-
-        // ============================================
-        // SUPABASE FUNCTIONS
-        // ============================================
+        products = [...localProducts];
+        let currentSearchQuery = "";
+        let currentEditingProductId = null; 
 
         async function loadProductsFromSupabase() {
+            if (!isSupabaseReady) {
+                products = [...localProducts];
+                return false;
+            }
             try {
-                if (!isSupabaseReady) {
-                    products = [...localProducts];
-                    return false;
-                }
                 const { data, error } = await supabaseClient
                     .from('products')
                     .select('*')
@@ -745,7 +735,6 @@
 
                 if (error) throw error;
 
-                // دمج البيانات السيرفرية مع البيانات الوهمية لضمان ثبات الموقع
                 if (data && data.length > 0) {
                     const dbProducts = data.map(p => ({
                         id: p.id,
@@ -759,9 +748,9 @@
                         image_url: p.image_url || null
                     }));
                     
-                    // دمج البيانات دون تكرار الـ ID
                     const dbIds = dbProducts.map(p => p.id);
                     const remainingLocal = localProducts.filter(lp => !dbIds.includes(lp.id));
+                    
                     products = [...dbProducts, ...remainingLocal];
                 } else {
                     products = [...localProducts];
@@ -775,10 +764,9 @@
             return false;
         }
 
-       async function saveProductToSupabase(product) {
+        async function saveProductToSupabase(product) {
             if (!isSupabaseReady) return false;
             try {
-                // بناء مصفوفة البيانات الأساسية
                 const productData = {
                     name: product.name,
                     category: product.category,
@@ -791,7 +779,6 @@
                     created_at: new Date().toISOString()
                 };
 
-                // ⚠️ الإصلاح الحاسم: إذا كان هناك id (حالة تعديل) نرسله، وإذا لم يكن هناك (حالة إضافة) نتركه فارغاً ليقبله السيرفر تلقائياً
                 if (product.id) {
                     productData.id = product.id;
                 }
@@ -808,6 +795,7 @@
                 return false;
             }
         }
+
         async function deleteProductFromSupabase(id) {
             if (!isSupabaseReady) return false;
             try {
@@ -909,29 +897,13 @@
             }
         }
 
-        // ============================================
-        // INITIALIZATION
-        // ============================================
-
         document.addEventListener('DOMContentLoaded', async function() {
             await loadProductsFromSupabase();
             renderProducts();
             updateCartCount();
-
-            if (!isSupabaseReady) {
-                showSupabaseSetupNotice();
-            }
         });
 
-        function showSupabaseSetupNotice() {
-            console.log("Notice bypassed - connected");
-        }
-
-        // ============================================
-        // UI FUNCTIONS
-        // ============================================
-
-        function renderProducts(filter = 'all', search = '') {
+        function renderProducts(filter = 'all') {
             const grid = document.getElementById('productsGrid');
             let filtered = products;
 
@@ -939,10 +911,10 @@
                 filtered = filtered.filter(p => p.category === filter);
             }
 
-            if (search) {
+            if (currentSearchQuery.trim() !== "") {
                 filtered = filtered.filter(p => 
-                    p.name.toLowerCase().includes(search.toLowerCase()) ||
-                    p.description.toLowerCase().includes(search.toLowerCase())
+                    p.name.toLowerCase().includes(currentSearchQuery.toLowerCase()) ||
+                    p.description.toLowerCase().includes(currentSearchQuery.toLowerCase())
                 );
             }
 
@@ -963,7 +935,7 @@
                         <div class="product-specs">${product.specs.slice(0, 3).map(spec => `<span class="spec-tag">${spec}</span>`).join('')}</div>
                         <div class="product-footer">
                             <div class="product-price">${product.price.toLocaleString()} <span>دج</span></div>
-                            <button class="btn-order" onclick="event.stopPropagation(); addToCart(${product.id})" ${product.status === 'sold' ? 'disabled' : ''}>
+                            <button class="btn-order" onclick="event.stopPropagation(); addToCart(${product.id})" ${product.status !== 'available' ? 'disabled' : ''}>
                                 <i class="fas fa-shopping-cart"></i> طلب
                             </button>
                         </div>
@@ -977,14 +949,17 @@
                 document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
                 element.classList.add('active');
             }
-            renderProducts(category, document.getElementById('searchInput').value);
+            renderProducts(category);
+        }
+
+        function handleSearch() {
+            currentSearchQuery = document.getElementById('searchInput').value;
+            renderProducts();
         }
 
         function searchProducts() {
-            const search = document.getElementById('searchInput').value;
-            const activeCategory = document.querySelector('.nav-link.active');
-            const category = activeCategory ? activeCategory.getAttribute('onclick').match(/'([^']+)'/)[1] : 'all';
-            renderProducts(category, search);
+            currentSearchQuery = document.getElementById('searchInput').value;
+            renderProducts();
         }
 
         function showProductDetail(id) {
@@ -1070,7 +1045,6 @@
             return `شكراً على سؤالك! ${product.name} جهاز ممتاز بسعر ${product.price.toLocaleString()} دج. إذا كنت مهتماً بالشراء، يمكنك الضغط على زر "اطلب الآن" وملء بياناتك. سنتصل بك خلال 24 ساعة لتأكيد الطلب.`;
         }
 
-        // Cart
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
             if (!product || product.status === 'sold') { showToast('هذا المنتج غير متاح حالياً', 'error'); return; }
@@ -1106,7 +1080,6 @@
 
         function removeFromCart(productId) { cart = cart.filter(item => item.id !== productId); updateCartCount(); showCart(); }
 
-        // Order
         function openOrderModal(productId) {
             if (productId) {
                 const product = products.find(p => p.id === productId);
@@ -1156,7 +1129,6 @@
             document.getElementById('orderForm').reset();
         }
 
-        // Admin
         async function showAdminPanel() {
             document.getElementById('adminModal').classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -1216,28 +1188,24 @@
             `).join('');
         }
 
-     async function addProduct(event) {
+        async function addProduct(event) {
             event.preventDefault();
             const btn = document.getElementById('submitFormBtn');
             btn.disabled = true;
             btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...`;
 
             try {
-                // توليد ID مؤقت عشوائي لاستخدامه في تسمية الصورة المرفوعة فقط ومنع تداخل الملفات
-                const tempId = Math.floor(Math.random() * 10000);
+                // توليد معرف عشوائي فريد لتسمية ملف الصورة المرفوعة
+                const tempImageId = Math.floor(Math.random() * 100000);
                 
                 const imageInput = document.getElementById('productImage');
                 let uploadedImageUrl = null;
 
-                // رفع الصورة إذا تم اختيار ملف
                 if (imageInput && imageInput.files.length > 0) {
-                    uploadedImageUrl = await uploadImageToSupabase(imageInput.files[0], tempId);
-                    if (!uploadedImageUrl) {
-                        showToast('⚠️ تم حفظ المنتج بدون صورة بسبب إعدادات الـ Storage', 'error');
-                    }
+                    uploadedImageUrl = await uploadImageToSupabase(imageInput.files[0], tempImageId);
                 }
 
-                // ⚠️ الإصلاح الحاسم هنا: حذفنا حقل الـ id اليدوي لندع Supabase يتولى الترقيم التلقائي المريح
+                // تجهيز كائن البيانات النظيف بدون فرض حقل الـ ID يدوياً لمنع رفض السيرفر
                 const newProduct = {
                     name: document.getElementById('newProductName').value,
                     category: document.getElementById('newProductCategory').value,
@@ -1249,15 +1217,22 @@
                     image_url: uploadedImageUrl
                 };
 
-                // إرسال البيانات الموضعية النظيفة للسيرفر لكي يقبلها فوراً
+                // إذا كنا في وضع تعديل منتج قائم نقوم بتمرير الـ ID المختار
+                if (currentEditingProductId) {
+                    newProduct.id = currentEditingProductId;
+                }
+
+                // الحفظ الآمن في قاعدة البيانات
                 await saveProductToSupabase(newProduct);
                 
-                // إعادة جلب المنتجات ودمجها مع المنتجات الوهمية لتحديث الواجهة فوراً وثباتها
+                currentEditingProductId = null;
+                
+                // إعادة جلب حية مدمجة مع الأجهزة الـ 56 الوهمية وتحديث الشاشة فوراً
                 await loadProductsFromSupabase();
                 renderProducts();
                 
                 document.getElementById('addProductForm').reset();
-                showToast('تم إضافة المنتج بنجاح!');
+                showToast('تمت العملية بنجاح تام وتم تأمين المنتج!');
                 switchTab('productsList');
             } catch (err) {
                 console.error(err);
@@ -1281,6 +1256,7 @@
         function editProduct(id) {
             const product = products.find(p => p.id === id);
             if (!product) return;
+            currentEditingProductId = product.id;
             document.getElementById('newProductName').value = product.name;
             document.getElementById('newProductCategory').value = product.category;
             document.getElementById('newProductPrice').value = product.price;
@@ -1292,7 +1268,6 @@
             showToast('قم بتعديل البيانات ثم أضف المنتج');
         }
 
-        // Modals
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
             document.body.style.overflow = '';
@@ -1304,7 +1279,6 @@
             });
         });
 
-        // Toast
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
             document.getElementById('toastMessage').textContent = message;
